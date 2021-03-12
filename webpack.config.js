@@ -1,9 +1,11 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const idDevelopment = process.env.NODE_ENV === 'production';
+
 module.exports = {
-  mode: 'development',
-  devtool: 'eval-source-map',
+  mode: idDevelopment ? 'development' : 'production',
+  devtool: idDevelopment ? 'eval-source-map': 'source-map',
   entry: path.resolve(__dirname, 'src', 'index.jsx'),
   output: {
     path: path.resolve(__dirname, 'dist'),
@@ -26,6 +28,11 @@ module.exports = {
         test: /\.jsx$/,
         exclude: /node_modules/,
         use: 'babel-loader',
+      },
+      {
+        test: /\.css$/,
+        exclude: /node_modules/,
+        use: ['style-loader','css-loader'],
       }
     ],
   }
